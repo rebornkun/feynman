@@ -1,0 +1,31 @@
+.section_container{
+    padding: 0rem 4rem;
+}
+
+.top_title{
+    margin-top: 6rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.top_title p{
+    font-family: 'Italianno', cursive;
+    font-size: 13rem;
+    line-height: initial;
+}
+
+.bottom_title{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+.bottom_title p{
+    font-family: 'Major Mono Display', monospace;
+    font-size: 13rem;
+    line-height: initial;
+}
+
+.subtext{
+    width: 100%;
+}

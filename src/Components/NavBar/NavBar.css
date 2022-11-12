@@ -1,0 +1,19 @@
+.navbar{
+    width: 100vw;
+    height: 6rem;
+    background-color: var(--midnight-blue);
+}
+
+.navbar_container{
+    padding: 0rem 4rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    justify-content: space-between;
+}
+
+.Nav_buttons{
+    display: flex;
+    gap: 1rem;
+}
