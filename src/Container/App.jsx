@@ -6,6 +6,7 @@ import {UserContext} from '../Components/UserContext'
 import './App.css'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Dashboard from '../Pages/Dashboard/Dashboard'
+import Register from '../Pages/Register/Register'
 
 function App() {
 
@@ -35,10 +36,11 @@ function App() {
           <Routes>
             <Route path='/' element={<Landing />}/>
             <Route path='/login' element={<Login />}/>
+            <Route path='/register' element={<Register />}/>
             <Route path='/dashboard'>
               <Route index path=':id' element={<Dashboard />}/>
             </Route>
-            
+            <Route path='*' />
           </Routes>
         </div>
       </div>

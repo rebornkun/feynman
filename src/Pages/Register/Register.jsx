@@ -1,20 +1,17 @@
-import { useContext, useEffect } from 'react';
+import axios from 'axios';
+import { useContext } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../Components/UserContext';
 import FeynmanDataService from '../../services/feynman';
-import './Login.css'
+import './Register.css'
 
 
-const Login = ({set}) => {
+const Register = ({set}) => {
 
     const { user, setUser, SignedIn, setSignedIn } = useContext(UserContext)
     const navigate = useNavigate()
 
-    useEffect(()=>{
-
-    }, [user])
-
-    const LoginUser = () => {
+    const RegisterUser = () => {
         let emailfield = document.getElementById('emailinput')
         let password = document.getElementById('signin_password')
         let loadingtext = document.getElementById('loading')
@@ -23,36 +20,49 @@ const Login = ({set}) => {
             name: emailfield.value,
             password: password.value
         } 
-
-        loadingtext.innerHTML = "Loading please wait ..."
+        
+        console.log(userdetails)
+        setUser({...userdetails})
+        // console.log(JSON.stringify(userdetails))
+        var data = {
+            name: userdetails.name,
+            password: userdetails.password,
+        }
         loadingtext.style.display = 'block'
 
-        let topics = []
+        Promise.all([registeringUser(data), loginUser(data)])
+        .then(function (results) {
+            const acct = results[0];
+            const perm = results[1];
+            console.log(results)
+        });
+        
 
-        FeynmanDataService.loginUser(userdetails)
-        .then((response) => {
-
-            console.log(response.data)
-            setUser({...userdetails, id: response.data._id, })
+        setTimeout(()=>{
             setSignedIn(true)
-            navigate(`/dashboard/${response.data._id}`)
-                
-            
-        }).catch((err) => {
-            console.log(err)
-            loadingtext.innerHTML = "error"
-        })
-        
-        
-
-        
+            navigate(`/dashboard/${user.id}`)
+        }, 3000)
     }
 
+    const registeringUser = (data) => {
+        FeynmanDataService.registerUser(data)
+        .then((response) => {
+            console.log(response.data)
+        })
+        .catch(err => loadingtext.innerText = `error: ${err}`)
+    }
+
+    const loginUser = (data) => {
+        FeynmanDataService.loginUser(data).then((response) => {
+            console.log(response.data)
+        })
+        .catch(err => loadingtext.innerText = `error: ${err}`)
+    }
 
     return (
-        <div className='login'>
-            <div className='login_container'>
-                <h1>Login</h1>
+        <div className='Register'>
+            <div className='Register_container'>
+                <h1>Register</h1>
                 <div className="inputs">
                     <div className="emailfield">
                         <p>UserName</p>
@@ -71,11 +81,10 @@ const Login = ({set}) => {
                         autocomplete="current-password"
                         autoCorrect={false}
                         />
-
                     </div>
                 </div>
-                <div className="siginpage_signin_button" onClick={LoginUser}>
-                    <p>Sign in</p>
+                <div className="siginpage_signin_button" onClick={RegisterUser}>
+                    <p>Register</p>
                 </div>
                 <p id='loading' className='loading'>Loading please wait...</p>
             </div>
@@ -83,4 +92,4 @@ const Login = ({set}) => {
     );
 }
 
-export default Login;
+export default Register;

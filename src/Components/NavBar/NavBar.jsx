@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useNavigation } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import './NavBar.css'
 
@@ -7,13 +7,15 @@ const NavBar = () => {
 
     const { user, setUser, SignedIn, setSignedIn, intialUser } = useContext(UserContext)
     const location = useLocation()
-    console.log(location)
-    console.log(user)
+    const navigate = useNavigate()
+    // console.log(location)
+    // console.log(user)
 
     const logOut = () => {
         setUser({...intialUser})
         setSignedIn(false)
         console.log('sss')
+        navigate(`/`)
     }
 
     const hhh = () => {
@@ -30,22 +32,38 @@ const NavBar = () => {
                             <path d="M20.2031 30.3672H39.7734C42.1641 30.3672 44.2422 30.625 46.0078 31.1406C47.7891 31.6406 49.2656 32.3359 50.4375 33.2266C51.6094 34.1172 52.4766 35.1797 53.0391 36.4141C53.6172 37.6328 53.9062 38.9531 53.9062 40.375C53.9062 42.7031 53.1719 44.7422 51.7031 46.4922C53.3906 47.4922 54.6484 48.7891 55.4766 50.3828C56.3047 51.9766 56.7188 53.7891 56.7188 55.8203C56.7188 57.5234 56.4297 59.0625 55.8516 60.4375C55.2891 61.8125 54.4219 62.9922 53.25 63.9766C52.0938 64.9453 50.625 65.6953 48.8438 66.2266C47.0781 66.7422 44.9922 67 42.5859 67H20.2031V30.3672ZM42.6328 44.4297C43.2734 44.4297 43.8984 44.4531 44.5078 44.5C45.5547 43.5 46.0781 42.3594 46.0781 41.0781C46.0781 39.75 45.5547 38.7266 44.5078 38.0078C43.4766 37.2734 41.9609 36.9062 39.9609 36.9062H27.6328V44.4297H42.6328ZM42.7734 60.5312C44.7734 60.5312 46.2891 60.1016 47.3203 59.2422C48.3672 58.3828 48.8906 57.1719 48.8906 55.6094C48.8906 54.0469 48.3672 52.8281 47.3203 51.9531C46.2891 51.0781 44.7734 50.6406 42.7734 50.6406H27.6328V60.5312H42.7734Z" fill="#0A6B78"/>
                         </svg>
                     </div>
-                    { !SignedIn ? 
+                    { SignedIn ? 
+                        (<div className='Nav_buttons'>
+                            <div className="button" onClick={logOut}>
+                                <p>Signout</p>
+                            </div>
+                        </div>)
+                        :
+                        location.pathname === '/login' ? 
+                        (<Link to='/register'>
+                            <div className="button">
+                                <p>Register</p>
+                            </div>
+                        </Link>)
+                        :
+                        location.pathname === '/register' ? 
+                        (<Link to='/login'>
+                            <div className="button">
+                                <p>Login</p>
+                            </div>
+                        </Link>)
+                        :
                         (<div className='Nav_buttons'>
                             <Link to='/login'>
                                 <div className="button">
                                     <p>Login</p>
                                 </div>
                             </Link>
-                        </div>)
-                        :
-                        location.pathname === '/login' ? 
-                        (<div></div>)
-                        :
-                        (<div className='Nav_buttons'>
-                            <div className="button" onClick={logOut}>
-                                <p>Signout</p>
-                            </div>
+                            <Link to='/register'>
+                                <div className="button">
+                                    <p>Register</p>
+                                </div>
+                            </Link>
                         </div>)
                     }
                 </div>
