@@ -1,7 +1,31 @@
 .dashboard{
-    margin-top: 6rem;
+    padding-top: 6rem;
+    position: relative;
+    height: 100%;
 }
 
 .dashboard_container{
     padding: 0rem 4rem;
+    
+}
+.dashboard_container .welcome{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.add_button{
+    height: 4rem;
+    width: 4rem;
+    background-color: var(--grey-blue);
+    border-radius: 50%;
+    box-shadow: 5px 5px 15px #5c5b56;
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+.add_button:hover{
+    transform: scale(1.1);
+    transition: all 0.5s ease;
 }

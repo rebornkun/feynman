@@ -32,21 +32,25 @@ const Register = ({set}) => {
         loadingtext.innerHTML = "Loading please wait ..."
         loadingtext.style.display = 'block'
 
-        let topics = []
-
-        // Promise.all([registeringUser(data), loginUser(data)])
-        // .then(function (results) {
-        //     const acct = results[0];
-        //     const perm = results[1];
-        //     console.log(results)
-        // });
-
+        // register user
         FeynmanDataService.registerUser(data)
         .then((response) => {
+
+            //login user after succesful registration
             FeynmanDataService.loginUser(data).then((response) => {
-                setUser({...userdetails, id: response.data._id, })
+
+                let user_id = response.data._id
+
+                // get user topics if any
+                FeynmanDataService.get(user_id)
+                .then((res) => {
+                    setUser({...userdetails, id: user_id, topics: res.data})
+                })
+                
+                //sign in user and navigate to dashboard
                 setSignedIn(true)
                 navigate(`/dashboard/${response.data._id}`)
+
             })
             .catch(err => loadingtext.innerText = `error: ${err}`)
         })

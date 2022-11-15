@@ -27,13 +27,18 @@ const Login = ({set}) => {
         loadingtext.innerHTML = "Loading please wait ..."
         loadingtext.style.display = 'block'
 
-        let topics = []
-
+        // login user
         FeynmanDataService.loginUser(userdetails)
         .then((response) => {
+            let user_id = response.data._id
 
-            console.log(response.data)
-            setUser({...userdetails, id: response.data._id, })
+            // get user topics if any
+            FeynmanDataService.get(user_id)
+            .then((res) => {
+                setUser({...userdetails, id: user_id, topics: res.data})
+            })
+            
+            //sign in user and navigate to dashboard
             setSignedIn(true)
             navigate(`/dashboard/${response.data._id}`)
                 
@@ -42,8 +47,6 @@ const Login = ({set}) => {
             console.log(err)
             loadingtext.innerHTML = "error"
         })
-        
-        
 
         
     }

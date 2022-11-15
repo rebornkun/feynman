@@ -12,7 +12,7 @@ class FeynmanDataService {
     }
 
     get(id){
-        return axios.get(`${baseUrl}/id/${id}`)
+        return axios.get(`${baseUrl}/user/${id}`)
     }
 
     createTopic(data) {

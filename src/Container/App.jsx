@@ -12,7 +12,9 @@ function App() {
 
   const intialUser = {
     name: '',
-    password: ''
+    password: '',
+    id: null,
+    topics: [],
   }
 
   const [ user, setUser ] = useState(intialUser)
