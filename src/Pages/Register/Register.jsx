@@ -23,41 +23,38 @@ const Register = ({set}) => {
         
         console.log(userdetails)
         setUser({...userdetails})
-        // console.log(JSON.stringify(userdetails))
+
         var data = {
             name: userdetails.name,
             password: userdetails.password,
         }
+
+        loadingtext.innerHTML = "Loading please wait ..."
         loadingtext.style.display = 'block'
 
-        Promise.all([registeringUser(data), loginUser(data)])
-        .then(function (results) {
-            const acct = results[0];
-            const perm = results[1];
-            console.log(results)
-        });
-        
+        let topics = []
 
-        setTimeout(()=>{
-            setSignedIn(true)
-            navigate(`/dashboard/${user.id}`)
-        }, 3000)
-    }
+        // Promise.all([registeringUser(data), loginUser(data)])
+        // .then(function (results) {
+        //     const acct = results[0];
+        //     const perm = results[1];
+        //     console.log(results)
+        // });
 
-    const registeringUser = (data) => {
         FeynmanDataService.registerUser(data)
         .then((response) => {
-            console.log(response.data)
+            FeynmanDataService.loginUser(data).then((response) => {
+                setUser({...userdetails, id: response.data._id, })
+                setSignedIn(true)
+                navigate(`/dashboard/${response.data._id}`)
+            })
+            .catch(err => loadingtext.innerText = `error: ${err}`)
         })
         .catch(err => loadingtext.innerText = `error: ${err}`)
+        
+
     }
 
-    const loginUser = (data) => {
-        FeynmanDataService.loginUser(data).then((response) => {
-            console.log(response.data)
-        })
-        .catch(err => loadingtext.innerText = `error: ${err}`)
-    }
 
     return (
         <div className='Register'>
