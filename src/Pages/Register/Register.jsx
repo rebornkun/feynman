@@ -41,11 +41,8 @@ const Register = ({set}) => {
 
                 let user_id = response.data._id
 
-                // get user topics if any
-                FeynmanDataService.get(user_id)
-                .then((res) => {
-                    setUser({...userdetails, id: user_id, topics: res.data})
-                })
+                // set User
+                setUser({...userdetails, id: user_id})
                 
                 //sign in user and navigate to dashboard
                 setSignedIn(true)
