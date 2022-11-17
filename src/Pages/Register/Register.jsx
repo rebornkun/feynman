@@ -10,6 +10,7 @@ const Register = ({set}) => {
 
     const { user, setUser, SignedIn, setSignedIn } = useContext(UserContext)
     const navigate = useNavigate()
+    let currentUser
 
     const RegisterUser = () => {
         let emailfield = document.getElementById('emailinput')
@@ -37,19 +38,23 @@ const Register = ({set}) => {
         .then((response) => {
 
             //login user after succesful registration
-            FeynmanDataService.loginUser(data).then((response) => {
-
+            FeynmanDataService.loginUser(userdetails)
+            .then((response) => {
                 let user_id = response.data._id
 
-                // set User
-                setUser({...userdetails, id: user_id})
+                // set user 
+                setUser({...user, ...userdetails, id: user_id, SignedIn: true})
+                currentUser = {...user, ...userdetails, id: user_id, SignedIn: true}
                 
                 //sign in user and navigate to dashboard
                 setSignedIn(true)
-                navigate(`/dashboard/${response.data._id}`)
-
+                    
+                navigate(`/dashboard/${response.data._id}`, {state: { currentUser }})
+                
+            }).catch((err) => {
+                console.log(err)
+                loadingtext.innerHTML = "error"
             })
-            .catch(err => loadingtext.innerText = `error: ${err}`)
         })
         .catch(err => loadingtext.innerText = `error: ${err}`)
         

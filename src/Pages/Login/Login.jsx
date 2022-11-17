@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { UserContext } from '../../Components/UserContext';
 import FeynmanDataService from '../../services/feynman';
@@ -8,11 +8,9 @@ import './Login.css'
 const Login = ({set}) => {
 
     const { user, setUser, SignedIn, setSignedIn } = useContext(UserContext)
+    let currentUser
+
     const navigate = useNavigate()
-
-    useEffect(()=>{
-
-    }, [user])
 
     const LoginUser = () => {
         let emailfield = document.getElementById('emailinput')
@@ -33,12 +31,13 @@ const Login = ({set}) => {
             let user_id = response.data._id
 
             // set user 
-            setUser({...user, ...userdetails, id: user_id})
+            setUser({...user, ...userdetails, id: user_id, SignedIn: true})
+            currentUser = {...user, ...userdetails, id: user_id, SignedIn: true}
             
             //sign in user and navigate to dashboard
             setSignedIn(true)
-            navigate(`/dashboard/${response.data._id}`)
                 
+            navigate(`/dashboard/${response.data._id}`, {state: { currentUser }})
             
         }).catch((err) => {
             console.log(err)

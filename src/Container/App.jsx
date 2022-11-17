@@ -15,21 +15,20 @@ function App() {
     password: '',
     id: null,
     topics: [],
+    SignedIn: false
   }
 
   const [ user, setUser ] = useState(intialUser)
   const [ SignedIn, setSignedIn ] = useState(false)
-
-  
-
+  const [ currentTopic, setCurrentTopic ] = useState()
 
   useEffect(()=>{
-    console.log(SignedIn)
-  },[SignedIn])
+    console.log('SignedIn from app js')
+  },[user, SignedIn])
   console.log(user)
 
   return (
-    <UserContext.Provider value={{ user, setUser, SignedIn, setSignedIn, intialUser }}>
+    <UserContext.Provider value={{ user, setUser, SignedIn, setSignedIn, intialUser, currentTopic, setCurrentTopic }}>
       <div className="App">
         <nav>
             <NavBar />

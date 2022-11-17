@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import Modal from '../../Components/Modal/Modal';
 import TopicBox from '../../Components/TopicBox/TopicBox';
 import { UserContext } from '../../Components/UserContext';
 import FeynmanDataService from '../../services/feynman';
@@ -9,16 +10,16 @@ const Dashboard = () => {
     
     const { user, setUser } = useContext(UserContext)
     const { id } = useParams()
-    console.log(id)
-
+    const location = useLocation()
+    
     useEffect(()=>{
-
+        
         FeynmanDataService.get(id)
         .then((res) => {
-            setUser({...user, topics: res.data})
+            setUser({...location.state.currentUser, topics: res.data})
         })
-
-    },[])
+        
+    },[user])
 
     let userTopics = user.topics
     
@@ -28,11 +29,16 @@ const Dashboard = () => {
                 <h1 className='welcome'>Welcome {`${user.name}`}</h1>
                 { userTopics.length ? 
                     <div className='topics_containers'>
-                        <TopicBox />
+                        {
+                            userTopics.map((topic, index)=>{
+                                return <TopicBox topic={topic}  key={index} />
+                            })
+                        }
                     </div>
                     :
                     <div>no topics</div>
                 }
+            <Modal />
             </div>
             <div className="add_button">
                 <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

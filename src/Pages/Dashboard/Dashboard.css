@@ -33,3 +33,10 @@
     transform: scale(1.1);
     transition: all 0.5s ease;
 }
+
+.topics_containers{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
