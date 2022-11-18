@@ -19,7 +19,7 @@
     background-color: var(--grey-blue);
     border-radius: 50%;
     box-shadow: 5px 5px 15px #5c5b56;
-    position: absolute;
+    position: fixed;
     bottom: 3rem;
     right: 3rem;
     cursor: pointer;

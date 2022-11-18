@@ -16,7 +16,7 @@ class FeynmanDataService {
         return axios.get(`${baseUrl}/user/${id}`)
     }
 
-    createTopic(data) {
+    addTopic(data) {
         return axios.post(`${baseUrl}/topic`, data);
     }
 
@@ -24,8 +24,8 @@ class FeynmanDataService {
         return axios.put(`${baseUrl}/topic`, data);
     }
 
-    deleteTopic(id) {
-        return axios.delete(`${baseUrl}/topic?id=${id}`);
+    deleteTopic(id, data) {
+        return axios.delete(`${baseUrl}/topic?id=${id}`, data);
     }
 
 }

@@ -8,18 +8,54 @@ import './Dashboard.css'
 
 const Dashboard = () => {
     
-    const { user, setUser } = useContext(UserContext)
+    const { user, setUser, currentTopic, modalType, setModalType } = useContext(UserContext)
     const { id } = useParams()
     const location = useLocation()
-    
+
+    let modal = document.getElementById('modal')
+    let modal_input= document.getElementById('modal_input')
+    let modal_text= document.getElementById('modal_text')
+
+    let string = 'hfjsdbjhewn, nkwefwef.webfjhbhje*hbjwbcje^'
+    let divide = string.split(/[,./;'[{}!@#$%^&*()]/)
+    console.log(divide)
     useEffect(()=>{
         
         FeynmanDataService.get(id)
         .then((res) => {
             setUser({...location.state.currentUser, topics: res.data})
+            console.log('user effect dashboard')
         })
         
-    },[user])
+    },[])
+
+    const exitModal = () => {
+
+        modal.classList.remove('show')
+        modal_input.value = ''
+        modal_text.value = ''
+
+    }
+
+    const openAddTopicModal = () => {
+        
+        setModalType('add')
+        let modal = document.getElementById('modal')
+        let modal_input= document.getElementById('modal_input')
+        let modal_text= document.getElementById('modal_text')
+
+        modal.classList.add('show')
+
+    }
+
+    const refreshTopics = () => {
+        FeynmanDataService.get(id)
+        .then((res) => {
+            setUser({...location.state.currentUser, topics: res.data})
+            exitModal()
+        })
+        console.log('refreshed')
+    }
 
     let userTopics = user.topics
     
@@ -31,16 +67,16 @@ const Dashboard = () => {
                     <div className='topics_containers'>
                         {
                             userTopics.map((topic, index)=>{
-                                return <TopicBox topic={topic}  key={index} />
+                                return <TopicBox topic={topic}  key={index} refreshTopics={refreshTopics} />
                             })
                         }
                     </div>
                     :
                     <div>no topics</div>
                 }
-            <Modal />
+            <Modal type={modalType} refreshTopics={refreshTopics} />
             </div>
-            <div className="add_button">
+            <div className="add_button" onClick={openAddTopicModal}>
                 <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path opacity="0.4" d="M18.8088 9.021C18.3573 9.021 17.7592 9.011 17.0146 9.011C15.1987 9.011 13.7055 7.508 13.7055 5.675V2.459C13.7055 2.206 13.5026 2 13.253 2H7.96363C5.49517 2 3.5 4.026 3.5 6.509V17.284C3.5 19.889 5.59022 22 8.16958 22H16.0453C18.5058 22 20.5 19.987 20.5 17.502V9.471C20.5 9.217 20.298 9.012 20.0465 9.013C19.6247 9.016 19.1168 9.021 18.8088 9.021Z" fill="#130F26"/>
                     <path opacity="0.4" d="M16.0841 2.56729C15.7851 2.25629 15.2631 2.47029 15.2631 2.90129V5.53829C15.2631 6.64429 16.1741 7.55429 17.2791 7.55429C17.9771 7.56229 18.9451 7.56429 19.7671 7.56229C20.1881 7.56129 20.4021 7.05829 20.1101 6.75429C19.0551 5.65729 17.1661 3.69129 16.0841 2.56729Z" fill="#130F26"/>

@@ -21,14 +21,15 @@ function App() {
   const [ user, setUser ] = useState(intialUser)
   const [ SignedIn, setSignedIn ] = useState(false)
   const [ currentTopic, setCurrentTopic ] = useState()
+  const [ modalType, setModalType ] = useState('')
 
   useEffect(()=>{
     console.log('SignedIn from app js')
-  },[user, SignedIn])
-  console.log(user)
+  },[user, SignedIn, currentTopic])
+  console.log('user: ', user)
 
   return (
-    <UserContext.Provider value={{ user, setUser, SignedIn, setSignedIn, intialUser, currentTopic, setCurrentTopic }}>
+    <UserContext.Provider value={{ user, setUser, SignedIn, setSignedIn, intialUser, currentTopic, setCurrentTopic, modalType, setModalType }}>
       <div className="App">
         <nav>
             <NavBar />

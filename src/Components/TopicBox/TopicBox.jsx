@@ -1,11 +1,14 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 import FeynmanDataService from '../../services/feynman'
 import { UserContext } from '../UserContext'
 import './TopicBox.css'
 
-const TopicBox = ({ topic }) => {
+const TopicBox = ({ topic, refreshTopics }) => {
 
-    const { currentTopic, setCurrentTopic } = useContext(UserContext)
+    const { user, setUser, currentTopic, setCurrentTopic, modalType, setModalType } = useContext(UserContext)
+    const { id } = useParams()
+    const location = useLocation()
     const topicDetials = {
         topicId: topic._id,
         userId: topic.userId,
@@ -14,8 +17,13 @@ const TopicBox = ({ topic }) => {
         date: topic.date
     }
 
+    useEffect(()=>{
+    
+    },[])
+
     const openUpdateTopicModal = () => {
 
+        setModalType('update')
         setCurrentTopic({...topicDetials})
         let modal = document.getElementById('modal')
         let modal_input= document.getElementById('modal_input')
@@ -27,7 +35,14 @@ const TopicBox = ({ topic }) => {
 
     }
 
-    const deleteTopic = () => {
+    const deleteTopic = async () => {
+
+        let topicId = topicDetials.topicId
+        let userId = {user_id: id}
+        await FeynmanDataService.deleteTopic(topicId, userId)
+        .then(response => console.log(response))
+
+        await refreshTopics()
 
     }
 
