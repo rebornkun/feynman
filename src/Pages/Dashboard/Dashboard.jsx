@@ -87,7 +87,4 @@ const Dashboard = () => {
     );
 }
 
-//job analyis is a planning tool
-// permit is a communication tool
-
 export default Dashboard;

@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import FeynmanDataService from '../../services/feynman'
+import Text from '../Text/Text'
 import { UserContext } from '../UserContext'
 import './TopicBox.css'
 
@@ -64,7 +65,10 @@ const TopicBox = ({ topic, refreshTopics }) => {
                     </div>
                 </div>
                 <div className='topic_text'>
-                    <p>{topicDetials.text}</p>
+                    {/* <p>{topicDetials.text}</p> */}
+                    <Text />
+                    <Text />
+                    <Text />
                 </div>
             </div>
         </div>
